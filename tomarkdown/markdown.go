@@ -280,6 +280,10 @@ func (c *Converter) InlineToString(b *notionapi.TextSpan) string {
 		case notionapi.AttrDate:
 			date := notionapi.AttrGetDate(attr)
 			text = c.FormatDate(date)
+		case notionapi.AttrEquation:
+			start += "$"
+			text = notionapi.AttrGetEquation(attr)
+			end = "$" + end
 		}
 	}
 	// move whitespace from inside style to outside, to match Notion export

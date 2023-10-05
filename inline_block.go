@@ -30,6 +30,8 @@ const (
 	AttrDate = "d"
 	// AtttrPage represents a link to a Notion page
 	AttrPage = "p"
+	// AttrEquation represents an equation
+	AttrEquation = "e"
 )
 
 // TextAttr describes attributes of a span of text
@@ -85,6 +87,11 @@ func AttrGetComment(attr TextAttr) string {
 
 func AttrGetHighlight(attr TextAttr) string {
 	panicIfAttrNot(attr, "AttrGetHighlight", AttrHighlight)
+	return attr[1]
+}
+
+func AttrGetEquation(attr TextAttr) string {
+	panicIfAttrNot(attr, "AttrGetHighlight", AttrEquation)
 	return attr[1]
 }
 
