@@ -659,6 +659,20 @@ func (c *Converter) RenderCollectionView(block *notionapi.Block) {
 	c.RenderChildren(block)
 }
 
+// RenderEquation renders BlockEquation
+func (c *Converter) RenderEquation(block *notionapi.Block) {
+	equation := c.GetInlineContent(block.InlineContent, true)
+	parts := strings.Split(equation, "\n")
+
+	// The line was already indented by AddNewlineBeforeBlock(),
+	// so no additional indentation is added before this line.
+	c.Printf("$$\n")
+	for _, part := range parts {
+		c.Printf(c.Indent + part + "\n")
+	}
+	c.Printf(c.Indent + "$$\n")
+}
+
 // DefaultRenderFunc returns a defult rendering function for a type of
 // a given block
 func (c *Converter) DefaultRenderFunc(blockType string) func(*notionapi.Block) {
@@ -668,7 +682,7 @@ func (c *Converter) DefaultRenderFunc(blockType string) func(*notionapi.Block) {
 	case notionapi.BlockText:
 		return c.RenderText
 	case notionapi.BlockEquation:
-		// TODO: NYI
+		return c.RenderEquation
 	case notionapi.BlockNumberedList:
 		return c.RenderNumberedList
 	case notionapi.BlockBulletedList:
