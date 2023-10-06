@@ -666,11 +666,12 @@ func (c *Converter) RenderEquation(block *notionapi.Block) {
 
 	// The line was already indented by AddNewlineBeforeBlock(),
 	// so no additional indentation is added before this line.
-	c.Printf("$$\n")
+	c.Printf("$$")
 	for _, part := range parts {
-		c.Printf(c.Indent + part + "\n")
+		escapedPart := strings.ReplaceAll(part, `\`, `\\`)
+		c.Printf(escapedPart + " ")
 	}
-	c.Printf(c.Indent + "$$\n")
+	c.Printf("$$\n")
 }
 
 // DefaultRenderFunc returns a defult rendering function for a type of
